@@ -3,14 +3,19 @@
   tasks:
 
   - name: Update APT package cache
-    apt: update_cache=yes cache_valid_time=600
+    apt: 
+      update_cache: yes 
+      cache_valid_time: 600
 
   - name: Upgrade APT to the latest packages
-    apt: upgrade=dist
+    apt:
+      upgrade: dist
     register: apt_result
 
-  - name: Autoremove unused packages
-    command: apt-get -y autoremove
+  - name: Autoremove unused packages and clean
+    apt:
+      autoclean: yes
+      autoremove: yes
     register: apt_result
     changed_when: "'packages will be REMOVED' in apt_result.stdout"
 
